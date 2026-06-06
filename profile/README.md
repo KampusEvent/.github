@@ -2,11 +2,6 @@
 
 Sistem manajemen event kampus berbasis microservices untuk mata kuliah Microservices Architecture.
 
-## Dokumentasi
-
-- [PROJECT GUIDE.txt](PROJECT%20GUIDE.txt) — Panduan implementasi teknis
-- [Kampus Event.txt](Kampus%20Event.txt) — Deskripsi lengkap project
-
 ## Arsitektur
 
 ```mermaid
@@ -81,11 +76,11 @@ Isi nama anggota tim di kolom **Developer**:
 
 | Developer | Repository | Port | Fokus Utama |
 |-----------|------------|------|-------------|
-| __________ | kampusevent-auth-service | 8001 | Register, Login, JWT, RBAC |
+| Valen | kampusevent-auth-service | 8001 | Register, Login, JWT, RBAC |
 | __________ | kampusevent-event-service | 8002 | CRUD Event, kuota, status |
-| __________ | kampusevent-registration-service | 8003 | Pendaftaran, tiket, HTTP client ke Event |
+| Valen | kampusevent-registration-service | 8003 | Pendaftaran, tiket, HTTP client ke Event |
 | __________ | kampusevent-attendance-service | 8004 | Check-in, kehadiran, HTTP client ke Registration |
-| __________ | kampusevent-infrastructure | — | Docker Compose, Grafana, Jaeger, E2E tests |
+| Valen | kampusevent-infrastructure | — | Docker Compose, Grafana, Jaeger, E2E tests |
 
 ## Workflow Pengembangan
 
