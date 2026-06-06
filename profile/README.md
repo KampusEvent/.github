@@ -64,11 +64,11 @@ flowchart TB
 
 | Repository | Port | Database | Deskripsi |
 |------------|------|----------|-----------|
-| [kampusevent-auth-service](kampusevent-auth-service/) | 8001 | auth-db | JWT, RBAC, user management |
-| [kampusevent-event-service](kampusevent-event-service/) | 8002 | event-db | CRUD event, kuota, status |
-| [kampusevent-registration-service](kampusevent-registration-service/) | 8003 | registration-db | Pendaftaran, tiket |
-| [kampusevent-attendance-service](kampusevent-attendance-service/) | 8004 | attendance-db | Check-in, kehadiran |
-| [kampusevent-infrastructure](kampusevent-infrastructure/) | — | — | Docker Compose, observability, E2E |
+| [kampusevent-auth-service](https://github.com/KampusEvent/kampusevent-auth-service) | 8001 | auth-db | JWT, RBAC, user management |
+| [kampusevent-event-service](https://github.com/KampusEvent/kampusevent-event-service) | 8002 | event-db | CRUD event, kuota, status |
+| [kampusevent-registration-service](https://github.com/KampusEvent/kampusevent-registration-service) | 8003 | registration-db | Pendaftaran, tiket |
+| [kampusevent-attendance-service](https://github.com/KampusEvent/kampusevent-attendance-service) | 8004 | attendance-db | Check-in, kehadiran |
+| [kampusevent-infrastructure](https://github.com/KampusEvent/kampusevent-infrastructure) | — | — | Docker Compose, observability, E2E |
 
 ## Matrix Assign Tim
 
