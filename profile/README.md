@@ -77,9 +77,9 @@ Isi nama anggota tim di kolom **Developer**:
 | Developer | Repository | Port | Fokus Utama |
 |-----------|------------|------|-------------|
 | Valen | kampusevent-auth-service | 8001 | Register, Login, JWT, RBAC |
-| __________ | kampusevent-event-service | 8002 | CRUD Event, kuota, status |
+| Ardy | kampusevent-event-service | 8002 | CRUD Event, kuota, status |
 | Valen | kampusevent-registration-service | 8003 | Pendaftaran, tiket, HTTP client ke Event |
-| __________ | kampusevent-attendance-service | 8004 | Check-in, kehadiran, HTTP client ke Registration |
+| Yuga | kampusevent-attendance-service | 8004 | Check-in, kehadiran, HTTP client ke Registration |
 | Valen | kampusevent-infrastructure | — | Docker Compose, Grafana, Jaeger, E2E tests |
 
 ## Workflow Pengembangan
