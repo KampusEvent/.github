@@ -83,7 +83,7 @@ sequenceDiagram
 ## Alur Bisnis
 
 1. User register/login via **Auth Service** (JWT + refresh httpOnly cookie)
-2. Panitia buat event via **Event Service** (jadwal + status efektif otomatis)
+2. Panitia buat event via **Event Service** (jadwal + status)
 3. Peserta daftar via **Registration Service** saat event **upcoming** → tiket
 4. Panitia check-in via **Attendance Service** saat event **ongoing**
 5. Organizer kelola kehadiran di Dashboard (check-in / batalkan)
