@@ -4,12 +4,6 @@ Sistem manajemen event kampus berbasis microservices untuk mata kuliah Microserv
 
 [KampusEvent Live DEMO](https://kampusevent-frontend-production.up.railway.app)
 
-### README per Service
-
-- [kampusevent-auth-service/README.md](https://github.com/KampusEvent/kampusevent-auth-service/blob/main/README.md)
-- [kampusevent-event-service/README.md](https://github.com/KampusEvent/ke-kampusevent-event-service/blob/main/README.md)
-- [kampusevent-registration-service/README.md](https://github.com/KampusEvent/kampusevent-registration-service/blob/main/README.md)
-- [kampusevent-attendance-service/README.md](https://github.com/KampusEvent/ke-kampusevent-attendance-service/blob/main/README.md)
 
 ## Arsitektur
 
@@ -103,6 +97,13 @@ sequenceDiagram
 | [kampusevent-registration-service](https://github.com/KampusEvent/kampusevent-registration-service) | 8003 | registration-db | Pendaftaran, tiket |
 | [kampusevent-attendance-service](https://github.com/KampusEvent/kampusevent-attendance-service) | 8004 | attendance-db | Check-in, kehadiran |
 | [kampusevent-infrastructure](https://github.com/KampusEvent/kampusevent-infrastructure) | — | — | Docker Compose, observability, E2E |
+
+### README per Service
+
+- [kampusevent-auth-service/README.md](https://github.com/KampusEvent/kampusevent-auth-service/blob/main/README.md)
+- [kampusevent-event-service/README.md](https://github.com/KampusEvent/ke-kampusevent-event-service/blob/main/README.md)
+- [kampusevent-registration-service/README.md](https://github.com/KampusEvent/kampusevent-registration-service/blob/main/README.md)
+- [kampusevent-attendance-service/README.md](https://github.com/KampusEvent/ke-kampusevent-attendance-service/blob/main/README.md)
 
 ## Tim
 
