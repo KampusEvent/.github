@@ -1,4 +1,4 @@
-# KampusEvent — Microservices Project
+# KampusEvent - Microservices Project
 
 Sistem manajemen event kampus berbasis microservices untuk mata kuliah Microservices Architecture.
 
@@ -45,6 +45,43 @@ flowchart TB
   Reg -->|HTTP| Event
   Att -->|HTTP| Reg
   Att -->|HTTP| Event
+```
+
+```mermaid
+sequenceDiagram
+    participant O as Organizer
+    participant P as Participant
+    participant GW as API Gateway :8080
+    participant Auth as Auth Service
+    participant Event as Event Service
+    participant Reg as Registration Service
+    participant Att as Attendance Service
+
+    Note over O,Att: STEP 2 — Login Organizer
+    O->>GW: POST /auth/login
+    GW->>Auth: forward
+    Auth-->>O: JWT token
+
+    Note over O,Att: STEP 3 — Buat Event
+    O->>GW: POST /events (+ JWT)
+    GW->>Event: forward
+    Event-->>O: event_id
+
+    Note over O,Att: STEP 5–6 — Peserta Daftar
+    P->>GW: POST /auth/login
+    GW->>Auth: forward
+    Auth-->>P: JWT token
+    P->>GW: POST /registrations (+ JWT)
+    GW->>Reg: forward
+    Reg->>Event: GET /events/{id}
+    Reg-->>P: ticket_code
+
+    Note over O,Att: STEP 7–8 — Check-In
+    O->>GW: POST /attendance/check-in (+ JWT)
+    GW->>Att: forward
+    Att->>Reg: GET /ticket/{code} (internal key)
+    Att->>Event: GET /events/{id}
+    Att-->>O: attendance recorded
 ```
 
 ## Alur Bisnis
