@@ -2,6 +2,8 @@
 
 Sistem manajemen event kampus berbasis microservices untuk mata kuliah Microservices Architecture.
 
+[KampusEvent Live DEMO](https://kampusevent-frontend-production.up.railway.app)
+
 ### README per Service
 
 - [kampusevent-auth-service/README.md](https://github.com/KampusEvent/kampusevent-auth-service/blob/main/README.md)
