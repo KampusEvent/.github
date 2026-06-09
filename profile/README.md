@@ -4,10 +4,10 @@ Sistem manajemen event kampus berbasis microservices untuk mata kuliah Microserv
 
 ### README per Service
 
-- [kampusevent-auth-service/README.md](kampusevent-auth-service/README.md)
-- [kampusevent-event-service/README.md](kampusevent-event-service/README.md)
-- [kampusevent-registration-service/README.md](kampusevent-registration-service/README.md)
-- [kampusevent-attendance-service/README.md](kampusevent-attendance-service/README.md)
+- [kampusevent-auth-service/README.md](https://github.com/KampusEvent/kampusevent-auth-service/blob/main/README.md)
+- [kampusevent-event-service/README.md](https://github.com/KampusEvent/ke-kampusevent-event-service/blob/main/README.md)
+- [kampusevent-registration-service/README.md](https://github.com/KampusEvent/kampusevent-registration-service/blob/main/README.md)
+- [kampusevent-attendance-service/README.md](https://github.com/KampusEvent/ke-kampusevent-attendance-service/blob/main/README.md)
 
 ## Arsitektur
 
