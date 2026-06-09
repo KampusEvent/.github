@@ -2,21 +2,29 @@
 
 Sistem manajemen event kampus berbasis microservices untuk mata kuliah Microservices Architecture.
 
+### README per Service
+
+- [kampusevent-auth-service/README.md](kampusevent-auth-service/README.md)
+- [kampusevent-event-service/README.md](kampusevent-event-service/README.md)
+- [kampusevent-registration-service/README.md](kampusevent-registration-service/README.md)
+- [kampusevent-attendance-service/README.md](kampusevent-attendance-service/README.md)
+
 ## Arsitektur
+
+**Decomposition:** 4 service per business capability.
 
 ```mermaid
 flowchart TB
-  subgraph users [Users]
-    Admin
-    Organizer
-    Participant
+  subgraph client [Client]
+    FE[Frontend :5173]
+    GW[API Gateway :8080]
   end
 
   subgraph services [Microservices]
-    Auth[Auth Service :8001]
-    Event[Event Service :8002]
-    Reg[Registration Service :8003]
-    Att[Attendance Service :8004]
+    Auth[Auth :8001]
+    Event[Event :8002]
+    Reg[Registration :8003]
+    Att[Attendance :8004]
   end
 
   subgraph data [Database per Service]
@@ -26,17 +34,8 @@ flowchart TB
     AttDB[(attendance-db)]
   end
 
-  subgraph obs [Observability]
-    Prom[Prometheus :9090]
-    Graf[Grafana :3000]
-    Jaeg[Jaeger :16686]
-  end
-
-  Admin --> Auth
-  Organizer --> Event
-  Organizer --> Att
-  Participant --> Event
-  Participant --> Reg
+  FE --> GW
+  GW --> Auth & Event & Reg & Att
 
   Auth --> AuthDB
   Event --> EventDB
@@ -44,21 +43,17 @@ flowchart TB
   Att --> AttDB
 
   Reg -->|HTTP| Event
-  Reg -->|HTTP| Auth
   Att -->|HTTP| Reg
-
-  Infra[kampusevent-infrastructure] --> services
-  Infra --> obs
+  Att -->|HTTP| Event
 ```
 
-## Alur Sistem
+## Alur Bisnis
 
-1. User register/login via **Auth Service**
-2. Panitia buat event via **Event Service**
-3. Peserta daftar via **Registration Service** → validasi ke Event Service
-4. Sistem generate kode tiket unik
-5. Panitia check-in via **Attendance Service** → validasi ke Registration Service
-6. Kehadiran tercatat
+1. User register/login via **Auth Service** (JWT + refresh httpOnly cookie)
+2. Panitia buat event via **Event Service** (jadwal + status efektif otomatis)
+3. Peserta daftar via **Registration Service** saat event **upcoming** → tiket
+4. Panitia check-in via **Attendance Service** saat event **ongoing**
+5. Organizer kelola kehadiran di Dashboard (check-in / batalkan)
 
 ## Repositories
 
@@ -70,9 +65,7 @@ flowchart TB
 | [kampusevent-attendance-service](https://github.com/KampusEvent/kampusevent-attendance-service) | 8004 | attendance-db | Check-in, kehadiran |
 | [kampusevent-infrastructure](https://github.com/KampusEvent/kampusevent-infrastructure) | — | — | Docker Compose, observability, E2E |
 
-## Matrix Assign Tim
-
-Isi nama anggota tim di kolom **Developer**:
+## Tim
 
 | Developer | Repository | Port | Fokus Utama |
 |-----------|------------|------|-------------|
@@ -82,75 +75,62 @@ Isi nama anggota tim di kolom **Developer**:
 | Yuga | kampusevent-attendance-service | 8004 | Check-in, kehadiran, HTTP client ke Registration |
 | Valen | kampusevent-infrastructure | — | Docker Compose, Grafana, Jaeger, E2E tests |
 
-## Workflow Pengembangan
-
-### 1. Setup repo masing-masing
-
-```bash
-cd kampusevent-auth-service   # ganti dengan repo kamu
-cp .env.example .env
-docker compose up --build     # dev standalone (service + DB sendiri)
-```
-
-### 2. Implementasi di repo sendiri
-
-Setiap service sudah memiliki scaffold:
-
-- `app/models/` — SQLModel ORM (TODO)
-- `app/schemas/` — Request/Response Pydantic (TODO)
-- `app/services/` — Business logic (TODO)
-- `app/repositories/` — Data access (TODO)
-- `app/api/router.py` — Endpoint definitions (TODO)
-
-Baca **README.md** di repo kamu untuk API contract dan Definition of Done.
-
-### 3. Integrasi via Infrastructure
-
-Setelah fitur siap, test integrasi:
-
-```bash
-cd kampusevent-infrastructure
-cp .env.example .env
-docker compose up --build
-```
-
-### 4. Testing
-
-```bash
-# Di repo service
-pytest
-
-# E2E (dari infrastructure)
-cd kampusevent-infrastructure/e2e-tests
-pip install -r requirements.txt
-pytest -v
-```
-
-## Aturan Penting
-
-1. **Database per Service** — tidak boleh query DB service lain
-2. **Komunikasi hanya HTTP REST** — gunakan `httpx.AsyncClient`
-3. **Resilience wajib** — timeout 3s, retry 3x, fallback response
-4. **Pisahkan layers** — router → service → repository
-5. **Jangan expose ORM model** — gunakan schema terpisah
-
-## Status Scaffold
-
-Scaffold sudah disiapkan (health, metrics, logging, tracing, Docker, Alembic baseline). Business logic dan endpoint API **belum diimplementasi** — itu tugas masing-masing developer.
-
 ## Quick Start (Full Stack)
 
 ```bash
 cd kampusevent-infrastructure
+cp .env.example .env
 docker compose up --build
 ```
 
-| URL | Service |
-|-----|---------|
-| http://localhost:8001/docs | Auth Swagger |
-| http://localhost:8002/docs | Event Swagger |
-| http://localhost:8003/docs | Registration Swagger |
-| http://localhost:8004/docs | Attendance Swagger |
+| URL | Keterangan |
+|-----|------------|
+| http://localhost:8080 | **API Gateway** (sole API entry point) |
+| http://localhost:5173 | Frontend (`npm run dev` di `kampusevent-frontend`) |
 | http://localhost:9090 | Prometheus |
 | http://localhost:3000 | Grafana (admin/admin) |
 | http://localhost:16687 | Jaeger |
+
+> Port `:8001–8004` tidak exposed ke host — akses API hanya via gateway.
+
+### Frontend
+
+```bash
+cd kampusevent-frontend
+npm install && cp .env.example .env && npm run dev
+```
+
+
+1. **Database per Service** — tidak boleh query DB service lain
+2. **Komunikasi hanya HTTP REST** — `httpx.AsyncClient` antar service
+3. **JWT lokal** — decode di setiap service (shared `JWT_SECRET`), bukan call Auth per request
+4. **Resilience wajib** — timeout 3s, retry 3x, fallback 503
+5. **Layers** — router → service → repository
+6. **Internal API key** — `GET /registrations/ticket/{code}` untuk Attendance only
+7. **Resource ownership** — organizer hanya akses resource miliknya (admin bypass)
+8. **Status rules** — registrasi `upcoming`, check-in `ongoing`
+9. **Alembic** — migration otomatis saat container startup
+
+## Keamanan
+
+| Fitur | Detail |
+|-------|--------|
+| Refresh token | httpOnly cookie, access token di memory (frontend) |
+| Internal API Key | `INTERNAL_API_KEY` — Registration ↔ Attendance |
+| Event ownership | CRUD/check-in scoped ke `created_by` |
+| Quota atomik | PostgreSQL advisory lock |
+| API Gateway | Rate limiting + CORS credentials |
+
+## Testing
+
+```bash
+# Per service (50 tests)
+cd kampusevent-auth-service && pytest          # 13
+cd kampusevent-event-service && pytest         # 13
+cd kampusevent-registration-service && pytest  # 13
+cd kampusevent-attendance-service && pytest    # 12
+
+# E2E + contract + gateway (20 tests)
+cd kampusevent-infrastructure/e2e-tests
+pip install -r requirements.txt && pytest -v
+```
